@@ -30,7 +30,7 @@ class AuthService {
           resolve({
             email: hardcodedEmail,
             accessToken: 'mock_jwt_token_' + Math.random().toString(36).substring(2, 9),
-            expiresIn: 3600
+            expiresIn: 999999
           });
         }, 500);
       });

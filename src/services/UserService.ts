@@ -24,7 +24,7 @@ class UserService {
           resolve(stubUser);
         }, 800);
       });
-
+      console.log(dataUser, 'asd')
       return dataUser;
 
     } catch (error) {
