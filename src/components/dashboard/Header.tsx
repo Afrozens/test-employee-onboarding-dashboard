@@ -1,5 +1,3 @@
-'use client';
-
 import { User } from "@/models/user";
 import MenuAuth from "./MenuAuth";
 
@@ -8,7 +6,7 @@ interface Props {
 }
 
 const Header = ({ user }: Props) => {
-  return (
+    return (
     <header className="w-full">
         <nav className="bg-gray-50 border border-gray-200 px-4 lg:px-6 py-2.5">
             <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
