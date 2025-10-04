@@ -1,7 +1,6 @@
 export interface SignIn {
   email: string;
   password: string;
-  confirmPassword?: string;
 }
 
 export interface SignInResponse {
