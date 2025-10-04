@@ -36,8 +36,35 @@ class AuthService {
       });
 
       clearTimeout(timeoutId);
+
+      await fetch('/api/cookie-auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(mockResponse),
+      });
+
       return mockResponse;
 
+    } catch (error) {
+      throw formatedErrorServices(error);
+    }
+  };
+
+   /**
+   * Logs out the current user and invalidates the session
+   * @returns {Promise<string>} Success message
+   * @throws {Error} When logout fails
+   */
+  logoutAuth = async (): Promise<string> => {
+    try {
+      await fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      return 'logout-success';
     } catch (error) {
       throw formatedErrorServices(error);
     }
