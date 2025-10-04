@@ -58,7 +58,6 @@ const MenuAuth = ({ user }: Props) => {
                   <AvatarGenerate
                     name={user.name ?? user.email}
                     size={40}
-                    userId={user.id}
                   />
             </div>
           </button>

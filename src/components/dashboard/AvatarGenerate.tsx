@@ -6,11 +6,9 @@ import getSplitName from "@/utils/getSplitName";
 interface Props {
   size: number;
   name: string;
-  userId: string;
 }
 
 const AvatarGenerate = ({
-  userId,
   size = 64,
   name,
 }: Props) => {

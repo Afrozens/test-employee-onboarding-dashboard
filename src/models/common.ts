@@ -5,8 +5,3 @@ export interface Paginate<T> {
   totalRecord: number;
   data?: T[];
 }
-
-export interface FilterOptions {
-  departments?: string[];
-  countries?: string[];
-}

@@ -1,6 +1,5 @@
-import React from 'react'
 
-const EmployeesPage = () => {
+const page = () => {
   return (
     <div>
       
@@ -8,4 +7,4 @@ const EmployeesPage = () => {
   )
 }
 
-export default EmployeesPage
+export default page

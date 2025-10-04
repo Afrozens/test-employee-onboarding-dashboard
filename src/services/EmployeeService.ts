@@ -1,27 +1,27 @@
 import { Employee } from '@/models/employee';
-import { FilterOptions, Paginate } from '@/models/common';
+import { Paginate } from '@/models/common';
 import employeesData from '@/stub/employee.json';
 
 /**
  * Service class for handling employee-related operations including:
  * - Paginated employee data retrieval
- * - Global search and multi-select filtering
+ * - Global filter and multi-select filtering
  */
 class EmployeeService {
     /**
-     * Retrieves paginated employee data with global search and multi-select filtering
+     * Retrieves paginated employee data with global filter and multi-select filtering
      * @param {number} page - Current page number (default: 1)
      * @param {number} limit - Number of items per page (default: 10)
-     * @param {string} search - Global search term for name, email, or department
-     * @param {FilterOptions} filters - Multi-select filters for department and country
+     * @param {string} filter - Global filter term for name, email, or department
+     * @param {string} option - Multi-select option for department and country
      * @returns {Promise<Paginate<Employee>>} Paginated response with employee data
      * @throws {Error} When the request fails
      */
-    async EmployeePaginate(
+    async employeePaginate(
         page: number = 1,
         limit: number = 10,
-        search: string | undefined = '',
-        filters: FilterOptions = {}
+        filter: string | undefined = '',
+        option: string = '',
     ): Promise<Paginate<Employee>> {
         try {
             await new Promise(resolve => setTimeout(resolve, Math.random() * 500 + 500));
@@ -29,19 +29,17 @@ class EmployeeService {
             const allEmployees: Employee[] = employeesData as Employee[];
             
             let filteredEmployees = allEmployees.filter(employee => {
-                const matchesSearch = !search || search.trim() === '' || 
-                    employee.name.toLowerCase().includes(search.toLowerCase().trim()) ||
-                    employee.email.toLowerCase().includes(search.toLowerCase().trim()) ||
-                    employee.departament.toLowerCase().includes(search.toLowerCase().trim()) ||
-                    employee.country.toLowerCase().includes(search.toLowerCase().trim());
+                const matchesfilter = !filter || filter.trim() === '' || 
+                    employee.name.toLowerCase().includes(filter.toLowerCase().trim()) ||
+                    employee.email.toLowerCase().includes(filter.toLowerCase().trim()) ||
+                    employee.departament.toLowerCase().includes(filter.toLowerCase().trim()) ||
+                    employee.country.toLowerCase().includes(filter.toLowerCase().trim());
 
-                const matchesDepartments = !filters.departments || filters.departments.length === 0 ||
-                    filters.departments.includes(employee.departament);
+                const matchesOption = !option || option.trim() === '' ||
+                    employee.departament.toLowerCase().includes(option.toLowerCase().trim()) ||
+                    employee.country.toLowerCase().includes(option.toLowerCase().trim());
 
-                const matchesCountries = !filters.countries || filters.countries.length === 0 ||
-                    filters.countries.includes(employee.country);
-
-                return matchesSearch && matchesDepartments && matchesCountries;
+                return matchesfilter && matchesOption;
             });
 
             const totalRecord = filteredEmployees.length;
