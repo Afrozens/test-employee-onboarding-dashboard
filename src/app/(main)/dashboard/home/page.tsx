@@ -1,5 +1,6 @@
+import { TeamOutlined, CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
+
 import ContainerHome from '@/components/dashboard/ContainerHome';
-import { TeamOutlined, CheckCircleOutlined, ApartmentOutlined, CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 const HomePage = () => {
   const currentDate = new Date();

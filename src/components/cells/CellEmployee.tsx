@@ -1,8 +1,10 @@
 'use client';
 
+import { MailOutlined, ShopOutlined } from "@ant-design/icons";
+import Link from "next/link";
+
 import { Employee } from "@/models/employee";
 import AvatarGenerate from "../dashboard/AvatarGenerate";
-import { MailOutlined, ShopOutlined } from "@ant-design/icons";
 
 interface Props {
     record: Employee;
@@ -22,11 +24,12 @@ const CellEmployee = ({ record }: Props) => {
         </div>
         <div className="relative ml-4 mb-auto flex w-fit flex-col justify-start capitalize">
           <div className='w-full flex flex-row-reverse gap-2 items-start justify-end'>
-          <span
-            className="text-[13px] hover:text-primary-02 font-semibold transition-opacity hover:opacity-80"
+          <Link
+            href={`/dashboard/employee/${record.id}`}
+            className="text-[13px] hover:text-primary-01 font-semibold transition-all hover:opacity-80"
           >
             {record.name} 
-          </span>
+          </Link>
           </div>
               <span className="text-[13px] lowercase font-light mb-1 flex items-center gap-2">
                 <MailOutlined className="text-base" />

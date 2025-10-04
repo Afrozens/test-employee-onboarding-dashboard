@@ -22,6 +22,8 @@ class EmployeeService {
         limit: number = 10,
         filter: string | undefined = '',
         option: string = '',
+        sortField?: string,
+        sortOrder?: 'ascend' | 'descend',
     ): Promise<Paginate<Employee>> {
         try {
             await new Promise(resolve => setTimeout(resolve, Math.random() * 500 + 500));
@@ -41,6 +43,19 @@ class EmployeeService {
 
                 return matchesfilter && matchesOption;
             });
+
+            if (sortField && sortOrder) {
+                filteredEmployees = filteredEmployees.sort((a, b) => {
+                const aValue = a[sortField as keyof Employee];
+                const bValue = b[sortField as keyof Employee];
+                
+                if (sortOrder === 'ascend') {
+                    return aValue > bValue ? 1 : -1;
+                } else {
+                    return aValue < bValue ? 1 : -1;
+                }
+                });
+            }
 
             const totalRecord = filteredEmployees.length;
             const totalPages = Math.ceil(totalRecord / limit);

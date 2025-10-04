@@ -1,45 +1,57 @@
 'use client';
 
-import { PropsWithChildren } from 'react';
 import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useQuery } from '@tanstack/react-query';
 
 import { Paginate } from '@/models/common';
 import usePaginate from '@/hooks/usePaginate';
+import useDatatable from '@/hooks/useDatatable';
 
-interface Props {
-  columns: ColumnsType<any>;
+interface Props<T> {
+  columns: ColumnsType<T>;
   classService: (
     page?: number,
     limit?: number,
     filter?: string,
     option?: string,
-  ) => Promise<Paginate<any>>;
+    sortField?: string,
+    sortOrder?: 'ascend' | 'descend',
+  ) => Promise<Paginate<T>>;
   name?: string;
   filter?: string;
   option?: string;
   withCache?: boolean;
+  sortableColumns?: string[];
 }
 
-const TemplateDatatable = ({
+const TemplateDatatable = <T extends object>({
   columns,
   classService,
   name,
   filter,
   option,
   withCache = true,
-}: Props) => {
+  sortableColumns = [],
+}: Props<T>) => {
   const { currentPage, handlePage } = usePaginate();
+  const {
+    handleTableChange,
+    enhancedColumns,
+    sortField,
+    sortOrder,
+  } = useDatatable<T>({columns, sortableColumns, handlePage, currentPage})
 
   const { data, isLoading } = useQuery({
-    queryKey: [`paginate-${name}`, filter, currentPage, option],
+    queryKey: [`paginate-${name}`, filter, currentPage, option, sortField, sortOrder],
     queryFn: async () => {
         const data = await classService(
           currentPage,
           10,
           filter?.toLowerCase(),
           option,
+          sortField,
+          sortOrder,
         );
         return data;
     },
@@ -47,13 +59,15 @@ const TemplateDatatable = ({
     gcTime: withCache ? 100 * 60 : 0,
     refetchOnWindowFocus: false,
   });
+
   return (
     <div className="w-full truncate p-4 md:p-10">
-      <Table
+      <Table<T>
         scroll={{ x: 500 }}
         className="my-10"
-        columns={columns}
+        columns={enhancedColumns}
         loading={isLoading}
+        onChange={handleTableChange}
         pagination={{
           position: ['none', 'bottomCenter'],
           onChange(page) {
