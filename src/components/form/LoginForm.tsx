@@ -21,7 +21,7 @@ const LoginForm = () => {
   } = useForm<SignIn>({
     mode: 'onChange',
   });
-  const { error, isLoading, doSubmit } = useSubmit<SignIn, SignInResponse>();
+  const { isLoading, doSubmit } = useSubmit<SignIn, SignInResponse>();
 
   const onSubmit: SubmitHandler<SignIn> = async (data) => {
     await doSubmit({ 
@@ -78,9 +78,6 @@ const LoginForm = () => {
         <ButtonPrimary disabled={!isValid} type="submit" loading={isLoading}>
             Sign In
         </ButtonPrimary>
-      </div>
-      <div className="w-full text-center">
-        <FieldError error={error} />
       </div>
     </form>
   );
