@@ -1,21 +1,21 @@
 import { NextResponse, type NextRequest } from 'next/server';
+
 import { AuthenticatedCookies } from '@/utils/auth';
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get(AuthenticatedCookies.ACCESS)?.value;
-  const parts = token && token.split('.');
-  const publicRoutes = [
-    '/login',
-  ];
+  const isCorrectlyToken = token && token.startsWith('mock_jwt_token_');
+  const publicRoutes = ['/login'];
   
   const isPublicRoute = publicRoutes.some((route) => req.nextUrl.pathname === route);
 
-  if (req.nextUrl.pathname === '/login' && parts?.length === 3) {
-    return NextResponse.redirect(new URL('/', req.url));
+  if (req.nextUrl.pathname === '/login' && isCorrectlyToken) {
+    return NextResponse.redirect(new URL('/dashboard/home', req.url));
   }
 
-  if (!isPublicRoute && parts?.length !== 3) {
+  if (!isCorrectlyToken && !isPublicRoute) {
     const loginUrl = new URL('/login', req.url);
+    
     return NextResponse.redirect(loginUrl);
   }
 
@@ -23,5 +23,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/', '/employees/:path'],
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/', '/dashboard/employees/:path', '/dashboard/:path'],
 };

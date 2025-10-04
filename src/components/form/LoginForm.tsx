@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 import FieldInput from '@/components/commons/field/FieldInput';
-import FieldError from '@/components/commons/field/FieldError';
 import ButtonPrimary from '@/components/commons/buttons/ButtonPrimary';
 import useSubmit from '@/hooks/useSubmit';
 import AuthService from '@/services/AuthService';
@@ -21,7 +20,7 @@ const LoginForm = () => {
   } = useForm<SignIn>({
     mode: 'onChange',
   });
-  const { isLoading, doSubmit } = useSubmit<SignIn, SignInResponse>();
+  const { isLoading, doSubmit } = useSubmit<SignIn, SignInResponse>('Sign in was successfully, welcome back');
 
   const onSubmit: SubmitHandler<SignIn> = async (data) => {
     await doSubmit({ 

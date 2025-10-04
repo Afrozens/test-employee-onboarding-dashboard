@@ -47,7 +47,6 @@ class AuthService {
       });
 
       return mockResponse;
-
     } catch (error) {
       throw formatedErrorServices(error);
     }
