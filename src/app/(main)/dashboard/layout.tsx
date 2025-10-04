@@ -5,6 +5,7 @@ import { User } from "@/models/user";
 import UserService from "@/services/UserService";
 import { AuthenticatedCookies } from "@/utils/auth";
 import Custom404 from "@/components/general/404";
+import { handleAuthUserMe } from "@/app/lib/auth";
 
 export default async function DashboardLayout({
   children,
@@ -16,18 +17,7 @@ export default async function DashboardLayout({
     const token = cookieStore.get(AuthenticatedCookies.ACCESS)?.value
     let user: User | null = null
 
-    const handleAuth = async () => {
-        try {
-            if (!token) throw new Error('token-not-found')
-            const data = await userService.userMe(token)
-            user = data
-        } catch (error) {
-            console.error('Auth error:', error);
-            throw new Error(`Authentication failed - Server Error: ${error}`);
-        }
-    }
-
-    await handleAuth();
+    user = await handleAuthUserMe(token)
 
     return (
         <>
