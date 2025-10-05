@@ -49,7 +49,7 @@ const StructuredModal = ({ onClose, show, children, classAditional }: Props) => 
       />
 
       <div
-        className={`fixed left-1/2 top-1/2 z-[99999] w-full xl:w-fit -translate-x-1/2 -translate-y-1/2 transform ${classAditional ?? 'w-fit max-w-[95vw]'}`}
+        className={`fixed left-1/2 top-1/2 z-[99999] w-full -translate-x-1/2 -translate-y-1/2 transform ${classAditional ?? 'w-fit max-w-[95vw]'}`}
         role="dialog"
         aria-modal="true"
       >

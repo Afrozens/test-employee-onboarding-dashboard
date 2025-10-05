@@ -34,11 +34,11 @@ class EmployeeService {
                 const matchesFilter = !filter || filter.trim() === '' || 
                     employee.name.toLowerCase().includes(filter.toLowerCase().trim()) ||
                     employee.email.toLowerCase().includes(filter.toLowerCase().trim()) ||
-                    employee.departament.toLowerCase().includes(filter.toLowerCase().trim()) ||
+                    employee.department.toLowerCase().includes(filter.toLowerCase().trim()) ||
                     employee.country.toLowerCase().includes(filter.toLowerCase().trim());
 
                 const matchesOptions = options.length === 0 ||
-                    options.includes(employee.departament) ||
+                    options.includes(employee.department) ||
                     options.includes(employee.country);
 
                 return matchesFilter && matchesOptions;

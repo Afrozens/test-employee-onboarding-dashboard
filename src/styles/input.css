@@ -61,3 +61,30 @@
   height: 58px !important;
   font-size: 20px !important;
 }
+
+
+/* input date picker - ant design */
+
+.ant-picker-dropdown {
+  z-index: 999999 !important;
+}
+
+.ant-picker.ant-picker-range {
+  padding-top: 0px !important;
+  height: 64px !important;
+  border-radius: 19px !important;
+  border-color: #000 !important;
+  background: #f3f4f6 !important;
+  max-width: 510px !important;
+  width: 100% !important;
+  height: 64px !important;
+  font-size: 20px !important;
+}
+
+.ant-picker-input > input {
+  font-size: 20px !important;
+  font-weight: 300 !important;
+}
+
+.anticon.anticon-swap-right > svg {
+}

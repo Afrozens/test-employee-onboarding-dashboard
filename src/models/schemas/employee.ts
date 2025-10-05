@@ -5,7 +5,7 @@ const schema = z.object({
     .min(3, "Name must be at least 3 characters long")
     .describe("Name (validation: minimum 3 characters)"),
     
-    email: z.string().email("Must be a valid email")
+    email: z.email("Must be a valid email")
     .refine(email => email.endsWith('@empresa.com'), {
       message: "Email must have @empresa.com domain"
     })
@@ -15,12 +15,21 @@ const schema = z.object({
         .describe("Department (select: Engineering, Sales, HR, Operations)"),
         
     entryDate: z.date()
-        .min(new Date(), "Hire date cannot be earlier than today")
+        .refine((dateStr) => {
+                const date = new Date(dateStr);
+                return date >= new Date();
+            }, {
+                message: "Hire date cannot be earlier than today"
+            })
         .describe("Hire date (date picker, cannot be earlier than today)"),
         
-    monthlySalary: z.coerce.number()
-        .min(800, "Minimum salary is $800")
-        .max(10000, "Maximum salary is $10,000")
+    monthlySalary: z.string()
+        .refine((salaryStr) => {
+            const salary = Number(salaryStr);
+            return !isNaN(salary) && salary >= 800 && salary <= 10000;
+        }, {
+            message: "Salary must be a valid number between $800 and $10,000"
+        })
         .describe("Monthly salary (number, validation: between $800 and $10,000)"),
         
     country: z.enum(['el salvador', 'guatemala', 'honduras', 'costa rica', 'panamá'])
@@ -29,13 +38,4 @@ const schema = z.object({
 
 type Schema = z.infer<typeof schema>;
 
-const defaultValues: Schema = {
-  name: '',
-  email: '',
-  department: 'Engineering',
-  entryDate: new Date(),
-  monthlySalary: 800,
-  country: 'el salvador'
-};
-
-export { type Schema, schema, defaultValues };
+export { type Schema, schema };

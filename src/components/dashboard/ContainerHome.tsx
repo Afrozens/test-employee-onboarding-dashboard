@@ -71,7 +71,7 @@ const ContainerHome = () => {
                 withCache
             />
 
-            <StructuredModal classAditional="xl:w-96" onClose={onClose} show={isOpen}>
+            <StructuredModal classAditional="max-w-none xl:w-96" onClose={onClose} show={isOpen}>
                 <EmployeeForm onClose={onClose} action='create' />
             </StructuredModal>
         </>

@@ -9,6 +9,7 @@ import { Schema, schema } from "@/models/schemas/employee";
 import useSubmit from "@/hooks/useSubmit";
 import FieldSelect from "../commons/field/FieldSelect";
 import { countryOptions, departmentOptions } from "@/stub/data";
+import FieldDatePicker from "../commons/field/FieldDatePicker";
 
 interface Props {
     onClose: () => void;
@@ -57,9 +58,22 @@ const EmployeeForm = ({ action, onClose}: Props) => {
         type="number"
         name="monthlySalary"
         id="monthlySalary"
+        placeholder="800 - 10,000"
         register={register}
         error={errors.monthlySalary?.message as string}
         isRequired
+      />
+      <Controller 
+        name="entryDate"
+        control={control}
+        render={({ field }) => (
+          <FieldDatePicker 
+            label="Entry Date"
+            id="entryDate"
+            error={errors.entryDate?.message as string}
+            field={field}
+          />
+        )}
       />
       <Controller 
         name="country"

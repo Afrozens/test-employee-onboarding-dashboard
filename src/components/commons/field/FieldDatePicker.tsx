@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { RangePickerProps } from 'antd/es/date-picker';
 
 import FieldError from './FieldError';
-import { convertDateFormat, reformedQueryDate } from '@/utils/datetime';
+import { reformedQueryDate } from '@/utils/datetime';
 
 interface Props {
   label: string;
@@ -33,12 +33,12 @@ const FieldDatePicker = ({
     return parsed;
   };
 
-  const handleSingleChange = (date: any) => {
+  const handleSingleChange = (date: dayjs.Dayjs | null) => {
     if (date) {
-      const formattedDate = convertDateFormat(new Date(date));
-      field?.onChange(formattedDate);
+      const dateObject = date.toDate();
+      field?.onChange(dateObject);
     } else {
-      field?.onChange('');
+      field?.onChange(null);
     }
   };
 
@@ -47,10 +47,12 @@ const FieldDatePicker = ({
   };
 
   const getPickerValue = () => {
-      if (value && typeof value === 'string') {
+    if (value) {
+      if (typeof value === 'string') {
         return formatDate(value);
       }
-      return undefined;
+    }
+    return undefined;
   };
 
   return (
@@ -59,16 +61,16 @@ const FieldDatePicker = ({
         classAditional || ''
       } flex w-full flex-col items-center justify-center`}
     >
-          <DatePicker
-            needConfirm={false}
-            disabledDate={disabledDateOutside ?? disabledDate}
-            allowClear={false}
-            disabled={disabled}
-            inputReadOnly
-            value={getPickerValue() as dayjs.Dayjs | undefined}
-            showTime={false}
-            onChange={handleSingleChange}
-          />
+      <DatePicker
+        needConfirm={false}
+        disabledDate={disabledDateOutside ?? disabledDate}
+        allowClear={false}
+        disabled={disabled}
+        inputReadOnly
+        value={getPickerValue() as dayjs.Dayjs | undefined}
+        showTime={false}
+        onChange={handleSingleChange}
+      />
       <FieldError error={error} />
     </div>
   );

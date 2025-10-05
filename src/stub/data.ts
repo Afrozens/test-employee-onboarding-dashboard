@@ -31,7 +31,7 @@ export const generateEmployee = (): Employee => {
         id: randomUUID(),
         name: `${firstName} ${lastName}`,
         email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`,
-        departament: faker.helpers.arrayElement(['HR', 'Engineering', 'Sales', 'Operations']),
+        department: faker.helpers.arrayElement(['HR', 'Engineering', 'Sales', 'Operations']),
         monthlySalary: faker.number.float({ min: 800, max: 10000, fractionDigits: 2 }),
         country: faker.location.country(),
         entryDate: faker.date.between({ from: '2020-01-01', to: '2024-01-01' }).toISOString().split('T')[0]

@@ -1,12 +1,12 @@
-export type typeDepartament = 'HR' | 'Engineering' | 'Sales' | 'Operations';
-export type typeCountry = 'El Salvador' | 'Guatemala' | 'Honduras' | 'Costa Rica' | 'Panamá';
+export type typedepartment = 'HR' | 'Engineering' | 'Sales' | 'Operations';
+export type typeCountry = 'el salvador' | 'guatemala' | 'honduras' | 'costa rica' | 'panamá';
 
 export interface Employee {
     id: string;
     name: string;
     email: string
-    departament: typeDepartament;
+    department: typedepartment;
     monthlySalary: number;
-    country: string;
+    country: typeCountry;
     entryDate: string;
 }

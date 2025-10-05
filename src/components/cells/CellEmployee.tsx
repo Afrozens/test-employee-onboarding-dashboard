@@ -37,7 +37,7 @@ const CellEmployee = ({ record }: Props) => {
               </span>
               <span className="text-xs capitalize font-light mb-1 flex items-cencer gap-2">
                 <ShopOutlined className="text-lg" />
-                {record.departament}
+                {record.department}
               </span>
         </div>
       </div>
