@@ -5,7 +5,7 @@ import { User } from "@/models/user";
 import { Employee } from "@/models/employee";
 
 export const stubUser: User = {
-    id: randomUUID(),
+    id: 'asjdlkjsdlkasjdlkadjslkajsd',
     name: 'John Doe',
     email: 'admin@rebuhr.com',
     role: 'admin'
@@ -41,3 +41,45 @@ export const generateEmployee = (): Employee => {
 export const generateEmployees = (count: number): Employee[] => {
     return Array.from({ length: count }, (_, index) => generateEmployee());
 };
+
+export const departmentOptions = [
+    {
+        label: "HR",
+        value: "HR",
+    },
+    {
+        label: 'Engineering',
+        value: 'Engineering'
+    },
+    {
+        label: 'Sales',
+        value: 'Sales'
+    },
+    {
+        label: 'Operations',
+        value: 'Operations'
+    }
+]
+
+export const countryOptions = [
+    {
+        label: 'El Salvador',
+        value: 'el salvador'
+    },
+    {
+        label: 'Guatemala',
+        value: 'guatemala'
+    },
+    {
+        label: 'Honduras',
+        value: 'honduras'
+    },
+    {
+        label: 'Costa Rica',
+        value: 'costa rica'
+    },
+    {
+        label: 'Panamá',
+        value: 'panamá'
+    },
+];

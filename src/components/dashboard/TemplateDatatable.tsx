@@ -14,13 +14,13 @@ interface Props<T> {
     page?: number,
     limit?: number,
     filter?: string,
-    option?: string,
+    option?: string[],
     sortField?: string,
     sortOrder?: 'ascend' | 'descend',
   ) => Promise<Paginate<T>>;
   name?: string;
   filter?: string;
-  option?: string;
+  option?: string[];
   withCache?: boolean;
   sortableColumns?: string[];
 }

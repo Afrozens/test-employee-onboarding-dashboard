@@ -13,7 +13,7 @@ class EmployeeService {
      * @param {number} page - Current page number (default: 1)
      * @param {number} limit - Number of items per page (default: 10)
      * @param {string} filter - Global filter term for name, email, or department
-     * @param {string} option - Multi-select option for department and country
+     * @param {string[]} options - Array of selected departments and countries
      * @returns {Promise<Paginate<Employee>>} Paginated response with employee data
      * @throws {Error} When the request fails
      */
@@ -21,7 +21,7 @@ class EmployeeService {
         page: number = 1,
         limit: number = 10,
         filter: string | undefined = '',
-        option: string = '',
+        options: string[] = [],
         sortField?: string,
         sortOrder?: 'ascend' | 'descend',
     ): Promise<Paginate<Employee>> {
@@ -31,18 +31,19 @@ class EmployeeService {
             const allEmployees: Employee[] = employeesData as Employee[];
             
             let filteredEmployees = allEmployees.filter(employee => {
-                const matchesfilter = !filter || filter.trim() === '' || 
+                const matchesFilter = !filter || filter.trim() === '' || 
                     employee.name.toLowerCase().includes(filter.toLowerCase().trim()) ||
                     employee.email.toLowerCase().includes(filter.toLowerCase().trim()) ||
                     employee.departament.toLowerCase().includes(filter.toLowerCase().trim()) ||
                     employee.country.toLowerCase().includes(filter.toLowerCase().trim());
 
-                const matchesOption = !option || option.trim() === '' ||
-                    employee.departament.toLowerCase().includes(option.toLowerCase().trim()) ||
-                    employee.country.toLowerCase().includes(option.toLowerCase().trim());
+                const matchesOptions = options.length === 0 ||
+                    options.includes(employee.departament) ||
+                    options.includes(employee.country);
 
-                return matchesfilter && matchesOption;
+                return matchesFilter && matchesOptions;
             });
+
 
             if (sortField && sortOrder) {
                 filteredEmployees = filteredEmployees.sort((a, b) => {

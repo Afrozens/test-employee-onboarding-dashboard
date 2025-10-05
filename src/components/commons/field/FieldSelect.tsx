@@ -1,0 +1,150 @@
+'use client';
+
+import { ControllerRenderProps } from 'react-hook-form';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+
+import FieldError from './FieldError';
+import type { Option, OptionsType } from '@/models/common';
+
+type Props = {
+  label: string;
+  id: string;
+  isMultiple: boolean;
+  name: string;
+  isRequired?: boolean;
+  options?: OptionsType;
+  error?: string;
+  classAditional?: string;
+  field?: ControllerRenderProps<any, string>;
+  isDisabled?: boolean;
+  placeholder?: string;
+  isLoading?: boolean;
+  defaultValue?: string;
+  onChange?: (dataCurrent: any) => void;
+  formatOptionLabel?: (option: any) => React.ReactNode;
+};
+
+const FieldSelect = ({
+  classAditional,
+  label,
+  id,
+  error,
+  isRequired,
+  isMultiple,
+  options,
+  name,
+  defaultValue,
+  placeholder,
+  field,
+  onChange,
+  isLoading,
+  isDisabled = false,
+  formatOptionLabel,
+  ...props
+}: Props) => {
+  const animatedComponents = makeAnimated();
+  const menuTarget = typeof document !== 'undefined' ? document.body : null;
+
+  const onChangeSingle = (newValue: unknown | Option[] | Option) => {
+    if (Array.isArray(newValue)) {
+        const value = newValue.map((value) => value.value)
+      field?.onChange(value);
+      if (onChange) {
+        onChange(value);
+      }
+    } else if (newValue instanceof Option) {
+      field?.onChange(newValue.value);
+      if (onChange) {
+        onChange(newValue.value);
+      }
+    } else {
+      field?.onChange(null);
+      if (onChange) {
+        onChange(null);
+      }
+    }
+  };
+
+  return (
+    <div className={`${classAditional || ''} relative flex flex-col gap-2 w-full items-center`}>
+      <div className='w-full relative items-center flex'>
+        {label === '' ? null : (
+        <label
+          className={`text-black z-[2] font-semibold capitalize absolute left-10 top-3 text-xs -translate-y-1/2`}
+          htmlFor={id}
+        >
+          {label}
+        </label>
+      )}
+
+      <Select
+        className="w-full capitalize"
+        name={name}
+        isDisabled={isDisabled}
+        isLoading={isLoading}
+        id={id}
+        menuPosition="fixed"
+        menuPlacement="auto"
+        styles={{
+          option: (styles, { data, isDisabled, isSelected, isFocused }) => ({
+            ...styles,
+            backgroundColor: isSelected ? '#435929' : isFocused ? '#25A54E' : '#fff',
+            color: isSelected ? '#fff' : isFocused ? '#fff' : '#000',
+            ':active': {
+              ...styles[':active'],
+              backgroundColor: !isDisabled
+                ? isSelected
+                  ? '#435929'
+                  : '#25A54E'
+                : undefined,
+            },
+          }),
+          control: (base, state) => ({
+            ...base,
+            backgroundColor: error ? '#fef8f6' : 'rgb(249 249 249)',
+            borderColor: error
+              ? '#c13515'
+              : state.isFocused
+                ? 'rgb(72 135 239)'
+                : '#d3d1d1',
+            boxShadow: state.isFocused ? '0 0 0 2px rgb(72 135 239)' : 'none',
+            paddingTop: '1rem',
+            minHeight: '3rem',
+            height: 'auto',
+            flexWrap: 'wrap',
+            outline: state.isFocused ? '2px solid transparent' : 'none',
+            outlineOffset: state.isFocused ? '2px' : '0',
+          }),
+          singleValue: (base) => ({
+            ...base,
+            display: 'flex',
+            alignItems: 'center',
+          }),
+          multiValue: (base) => ({
+            ...base,
+            margin: '2px',
+          }),
+          multiValueRemove: (base) => ({
+            ...base,
+            cursor: 'pointer',
+          }),
+          menuPortal: (base) => ({ ...base, zIndex: 99999 }),
+        }}
+        components={animatedComponents}
+        isMulti={isMultiple}
+        options={options}
+        onChange={onChangeSingle}
+        placeholder={placeholder}
+        menuPortalTarget={menuTarget}
+        value={defaultValue || field?.value}
+        formatOptionLabel={formatOptionLabel}
+        {...props}
+      />
+      </div>
+      <FieldError error={error} />
+    </div>
+  );
+};
+
+export default FieldSelect;

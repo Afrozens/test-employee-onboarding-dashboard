@@ -56,7 +56,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-8xl mx-auto px-6 py-8">
         <ContainerHome />
       </div>
     </div>
