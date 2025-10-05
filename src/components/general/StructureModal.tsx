@@ -53,7 +53,7 @@ const StructuredModal = ({ onClose, show, children, classAditional }: Props) => 
         role="dialog"
         aria-modal="true"
       >
-        <div className="relative max-h-[90vh] h-full overflow-y-auto rounded-xl bg-white shadow-2xl">
+        <div className="relative max-h-[90vh] h-full w-full overflow-y-auto rounded-xl bg-white shadow-2xl">
           <ButtonCloseModal onClose={onClose} />
           <div className="p-6">{children}</div>
         </div>

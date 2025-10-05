@@ -49,14 +49,14 @@ const FieldSelect = ({
   const onChangeSingle = (newValue: unknown | Option[] | Option) => {
     if (Array.isArray(newValue)) {
         const value = newValue.map((value) => value.value)
-      field?.onChange(value);
+        field?.onChange(value);
       if (onChange) {
         onChange(value);
       }
-    } else if (newValue instanceof Option) {
-      field?.onChange(newValue.value);
+    } else if ((newValue as Option).value) {
+      field?.onChange((newValue as Option).value);
       if (onChange) {
-        onChange(newValue.value);
+        onChange((newValue as Option).value);
       }
     } else {
       field?.onChange(null);
@@ -89,14 +89,14 @@ const FieldSelect = ({
         styles={{
           option: (styles, { data, isDisabled, isSelected, isFocused }) => ({
             ...styles,
-            backgroundColor: isSelected ? '#435929' : isFocused ? '#25A54E' : '#fff',
+            backgroundColor: isSelected ? '#FED553' : isFocused ? '#FED233' : '#fff',
             color: isSelected ? '#fff' : isFocused ? '#fff' : '#000',
             ':active': {
               ...styles[':active'],
               backgroundColor: !isDisabled
                 ? isSelected
-                  ? '#435929'
-                  : '#25A54E'
+                  ? '#FED553'
+                  : '#FED233'
                 : undefined,
             },
           }),
@@ -137,7 +137,7 @@ const FieldSelect = ({
         onChange={onChangeSingle}
         placeholder={placeholder}
         menuPortalTarget={menuTarget}
-        value={defaultValue || field?.value}
+        value={options?.filter((option) => option.value === defaultValue)[0]}
         formatOptionLabel={formatOptionLabel}
         {...props}
       />

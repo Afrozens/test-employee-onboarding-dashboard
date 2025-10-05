@@ -11,7 +11,7 @@ export const stubUser: User = {
     role: 'admin'
 }
 
-const corporateDomains = [
+export const corporateDomains = [
     'corp.com',
     'company.es',
     'enterprise.io',

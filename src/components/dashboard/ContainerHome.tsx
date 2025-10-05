@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from "react";
+
 import EmployeeService from "@/services/EmployeeService";
 import columnEmployee from "../columns/Employee";
 import TemplateDatatable from "./TemplateDatatable";
@@ -8,7 +10,9 @@ import FieldInput from "../commons/field/FieldInput";
 import ButtonPrimary from "../commons/buttons/ButtonPrimary";
 import FieldSelect from "../commons/field/FieldSelect";
 import { countryOptions, departmentOptions } from "@/stub/data";
-import { useState } from "react";
+import StructuredModal from "../general/StructureModal";
+import useOpen from "@/hooks/useOpen";
+import EmployeeForm from "../form/EmployeeForm";
 
 const ContainerHome = () => {
     const employeeService = new EmployeeService();
@@ -17,6 +21,7 @@ const ContainerHome = () => {
     const { handleFilter, filter, debouncedFilter } = usePaginate();
     const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
     const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+    const { isOpen, onClose, onOpen } = useOpen();
     
     const combinedOptions = [
         ...selectedDepartments,
@@ -52,7 +57,7 @@ const ContainerHome = () => {
                     onChange={(e) => handleFilter(e.target.value)}
                     value={filter}
                 />
-                <ButtonPrimary type="button">
+                <ButtonPrimary type="button" onClick={onOpen}>
                     Create Employee
                 </ButtonPrimary>
             </header>
@@ -63,9 +68,12 @@ const ContainerHome = () => {
                 classService={employeeService.employeePaginate}
                 name='employees'
                 filter={debouncedFilter}
-                
                 withCache
             />
+
+            <StructuredModal classAditional="xl:w-96" onClose={onClose} show={isOpen}>
+                <EmployeeForm onClose={onClose} action='create' />
+            </StructuredModal>
         </>
   )
 }

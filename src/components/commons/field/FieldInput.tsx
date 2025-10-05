@@ -63,7 +63,7 @@ const FieldInput = ({
             required={isRequired}
             type={currentType}
             autoComplete="current-password"
-            className={`w-full pr-20 pl-5 rounded-[19px] border focus:outline-none border-black border-1 font-light bg-[#F3F4F6] py-4 flex items-center`}
+            className={`w-full px-5 rounded-[19px] border focus:outline-none border-black border-1 font-light bg-[#F3F4F6] py-4 flex items-center ${id === 'password' || id === 'confirmPassword' ? 'pr-20' : ''}`}
             {...(register && register(name as string, rules))}
             name={name}
             {...props}
