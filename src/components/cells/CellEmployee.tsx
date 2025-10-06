@@ -25,7 +25,7 @@ const CellEmployee = ({ record }: Props) => {
         <div className="relative ml-4 mb-auto flex w-fit flex-col justify-start capitalize">
           <div className='w-full flex flex-row-reverse gap-2 items-start justify-end'>
           <Link
-            href={`/dashboard/employee/${record.id}`}
+            href={`/dashboard/employees/${record.id}`}
             className="text-[13px] hover:text-primary-01 font-semibold transition-all hover:opacity-80"
           >
             {record.name} 

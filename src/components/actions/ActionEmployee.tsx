@@ -19,7 +19,7 @@ const ActionEmployee = ({ record }: Props) => {
   const baseItems = [
     {
       label: (
-        <Link href={`/dashboard/employee/${record.id}`} className="text-lg font-semibold lg:text-sm lg:font-light">
+        <Link href={`/dashboard/employees/${record.id}`} className="text-lg font-semibold lg:text-sm lg:font-light">
           <EyeOutlined className="text-lg mr-4" />
           See
         </Link>

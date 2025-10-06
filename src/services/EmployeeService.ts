@@ -9,6 +9,33 @@ import { formatDateToYYYYMMDD } from '@/utils/datetime';
  */
 class EmployeeService {
     /**
+     * Retrieves a single employee by ID
+     * @param {string} id - Employee ID
+     * @returns {Promise<Employee>} The employee data
+     * @throws {Error} When employee is not found or request fails
+     */
+    async getEmployee(id: string): Promise<Employee> {
+        try {
+            console.log('entro')
+            const delay = Math.random() * 500 + 100;
+            await new Promise(resolve => setTimeout(resolve, delay));
+            
+            const allEmployees: Employee[] = JSON.parse(localStorage.getItem('data-stub') || '[]') as Employee[];
+            
+            const employee = allEmployees.find(emp => emp.id === id);
+            
+            if (!employee) {
+                throw new Error(`Employee with ID ${id} not found`);
+            }
+            console.log(employee, 'asda')
+            return employee;
+        } catch (error) {
+            console.error('Error getting employee:', error);
+            throw error;
+        }
+    }
+
+    /**
      * Verifies if an email is available (not already in use)
      * @param {string} email - Email to verify
      * @returns {Promise<boolean>} True if email is available, false if already in use

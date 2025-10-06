@@ -62,6 +62,9 @@ const EmployeeForm = ({ action, onClose, record }: Props) => {
       clearErrors();
       await doSubmit({data, callback: saveService, id: record?.id})
       await queryClient.invalidateQueries({ queryKey: ['paginate-employees'] });
+      if (action === 'edit') {
+        await queryClient.invalidateQueries({ queryKey: ['employee', record?.id] });
+      }
       onClose();
       toast.success(`Employee ${action === 'create' ? 'created' : 'edited'} successfully`)
       reset();
