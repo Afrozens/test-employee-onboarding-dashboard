@@ -1,13 +1,13 @@
 'use client';
 
-import { ControllerRenderProps } from 'react-hook-form';
+import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 import FieldError from './FieldError';
 import type { Option, OptionsType } from '@/models/common';
 
-type Props = {
+type Props<T extends FieldValues> = {
   label: string;
   id: string;
   isMultiple: boolean;
@@ -16,16 +16,14 @@ type Props = {
   options?: OptionsType;
   error?: string;
   classAditional?: string;
-  field?: ControllerRenderProps<any, string>;
+  field?: ControllerRenderProps<T, Path<T>>;
   isDisabled?: boolean;
   placeholder?: string;
   isLoading?: boolean;
   defaultValue?: string;
-  onChange?: (dataCurrent: any) => void;
-  formatOptionLabel?: (option: any) => React.ReactNode;
 };
 
-const FieldSelect = ({
+const FieldSelect = <T extends FieldValues>({
   classAditional,
   label,
   id,
@@ -37,12 +35,10 @@ const FieldSelect = ({
   defaultValue,
   placeholder,
   field,
-  onChange,
   isLoading,
   isDisabled = false,
-  formatOptionLabel,
   ...props
-}: Props) => {
+}: Props<T>) => {
   const animatedComponents = makeAnimated();
   const menuTarget = typeof document !== 'undefined' ? document.body : null;
 
@@ -50,19 +46,10 @@ const FieldSelect = ({
     if (Array.isArray(newValue)) {
         const value = newValue.map((value) => value.value)
         field?.onChange(value);
-      if (onChange) {
-        onChange(value);
-      }
     } else if ((newValue as Option).value) {
       field?.onChange((newValue as Option).value);
-      if (onChange) {
-        onChange((newValue as Option).value);
-      }
     } else {
       field?.onChange(null);
-      if (onChange) {
-        onChange(null);
-      }
     }
   };
 
@@ -138,7 +125,6 @@ const FieldSelect = ({
         placeholder={placeholder}
         menuPortalTarget={menuTarget}
         value={options?.filter((option) => option.value === defaultValue)[0]}
-        formatOptionLabel={formatOptionLabel}
         {...props}
       />
       </div>

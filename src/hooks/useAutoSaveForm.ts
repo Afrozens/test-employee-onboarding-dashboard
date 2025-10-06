@@ -26,7 +26,7 @@ export function useAutoSaveForm<T extends FieldValues>({
         if (hasSubmittedRef.current || !enabled) return;
         
             const currentData = getValues();
-            const hasData = Object.values(currentData as any).some(value => 
+            const hasData = Object.values(currentData).some(value => 
                 value !== undefined && value !== null && value !== ''
             );
             

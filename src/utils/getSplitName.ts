@@ -38,7 +38,7 @@ const getSplitName = (name: string) => {
   color = colors[name?.charCodeAt(0) % colors.length];
 
   // Process the name to extract initials
-  let nameSplit: any = name.split(' ');
+  let nameSplit: string | string[] = name.split(' ');
 
   // Remove any special characters from each part of the name
   nameSplit = nameSplit.map((name: string) => name.replace(/[^a-zA-Z0-9]/g, ''));
@@ -56,7 +56,7 @@ const getSplitName = (name: string) => {
   }
 
   const props = {
-    nameSplit: nameSplit as string,
+    nameSplit: nameSplit,
     color: color,
   };
 

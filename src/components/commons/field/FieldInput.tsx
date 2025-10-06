@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
-import type { RegisterOptions, UseFormRegister } from 'react-hook-form';
+import type { FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 import FieldError from './FieldError';
@@ -14,19 +13,19 @@ type AttributeProps = React.DetailedHTMLProps<
 
 type typeInput = 'text' | 'password' | 'number' | 'email' | '';
 
-type Props = {
+type Props<T extends FieldValues> = {
   id: string;
   label: string;
   type?: typeInput;
-  name?: string;
+  name?: Path<T>;
   classAditional?: string;
-  register?: UseFormRegister<any>;
+  register?: UseFormRegister<T>;
   error?: string | undefined;
-  rules?: RegisterOptions;
+  rules?: RegisterOptions<T>;
   isRequired?: boolean;
 } & AttributeProps;
 
-const FieldInput = ({
+const FieldInput = <T extends FieldValues>({
   label,
   id,
   isRequired,
@@ -37,7 +36,7 @@ const FieldInput = ({
   error,
   register,
   ...props
-}: Props) => {
+}: Props<T>) => {
   const [currentType, setCurrentType] = useState<typeInput>(type);
 
   const handlePassword = () => {
@@ -64,7 +63,7 @@ const FieldInput = ({
             type={currentType}
             autoComplete="current-password"
             className={`w-full px-5 rounded-[19px] border focus:outline-none border-black border-1 font-light bg-[#F3F4F6] py-4 flex items-center ${id === 'password' || id === 'confirmPassword' ? 'pr-20' : ''}`}
-            {...(register && register(name as string, rules))}
+            {...(register && name && register(name, rules))}
             name={name}
             {...props}
           />

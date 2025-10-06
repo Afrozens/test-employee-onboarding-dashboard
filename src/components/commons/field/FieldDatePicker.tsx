@@ -1,34 +1,34 @@
 'use client';
 
-import { DatePicker } from 'antd';
-import { ControllerRenderProps } from 'react-hook-form';
-import dayjs from 'dayjs';
+import { useCallback } from 'react';
+import { ControllerRenderProps, FieldValues } from 'react-hook-form';
 import { RangePickerProps } from 'antd/es/date-picker';
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 import FieldError from './FieldError';
 import { reformedQueryDate } from '@/utils/datetime';
-import { useCallback } from 'react';
 
-interface Props {
+interface Props<T extends FieldValues> {
   label: string;
   id: string;
   disabled?: boolean;
-  field?: ControllerRenderProps<any, string>;
+  field?: ControllerRenderProps<T, T[keyof T] & string>;
   classAditional?: string;
   isRequired?: boolean;
-  disabledDate?: any;
+  disabledDate?: RangePickerProps['disabledDate'];
   value?: Date;
   error?: string;
 }
 
-const FieldDatePicker = ({
+const FieldDatePicker = <T extends FieldValues>({
   classAditional,
   error,
   value,
   disabled = false,
   disabledDate: disabledDateOutside,
   field,
-}: Props) => {
+}: Props<T>) => {
   const formatDate = (date: string) => {
     const parsed = dayjs(reformedQueryDate(date), 'YYYY-MM-DD');
     return parsed;
