@@ -21,19 +21,29 @@ import { useQueryClient } from "@tanstack/react-query";
 interface Props {
     onClose: () => void;
     action: 'create' | 'edit'
-    id?: string;
+    record?: Employee
 }
 
-const EmployeeForm = ({ action, onClose, id }: Props) => {
+const EmployeeForm = ({ action, onClose, record }: Props) => {
     const employeeService = new EmployeeService();
-    const { handleSubmit, control, watch, setError, clearErrors, formState: { errors, isValid }, register} = useForm<Schema>({
+    const { handleSubmit, control, watch, reset, setError, clearErrors, formState: { errors, isValid }, register} = useForm<Schema>({
         mode: 'onChange',
         resolver: zodResolver(schema),
     });
     const queryClient = useQueryClient();
-    const { dataEmail, isLoadingEmail } = useEmail(watch('email'), errors.email?.message);
+    const { dataEmail, isLoadingEmail } = useEmail(watch('email'), errors.email?.message, record?.email);
     const { isLoading, doSubmit } = useSubmit<Partial<Employee>, void>();
     const saveService = action === 'create' ? employeeService.createEmployee : employeeService.editEmployee
+
+    useEffect(() => {
+      if (record) {
+        reset({
+          ...record,
+          entryDate: new Date(record.entryDate),
+          monthlySalary: String(record.monthlySalary)
+        })
+      }
+    }, [record])
 
     useEffect(() => {
           if (typeof dataEmail === 'boolean') {
@@ -50,10 +60,11 @@ const EmployeeForm = ({ action, onClose, id }: Props) => {
     
     const onSubmit: SubmitHandler<Schema> = async data => {
       clearErrors();
-      onClose();
-      await doSubmit({data, callback: saveService, id})
+      await doSubmit({data, callback: saveService, id: record?.id})
       await queryClient.invalidateQueries({ queryKey: ['paginate-employees'] });
+      onClose();
       toast.success(`Employee ${action === 'create' ? 'created' : 'edited'} successfully`)
+      reset();
     }
 
   return (
@@ -112,6 +123,7 @@ const EmployeeForm = ({ action, onClose, id }: Props) => {
           <FieldDatePicker 
             label="Entry Date"
             id="entryDate"
+            value={field.value}
             error={errors.entryDate?.message as string}
             field={field}
           />
@@ -142,6 +154,7 @@ const EmployeeForm = ({ action, onClose, id }: Props) => {
                 name="department"
                 label="Department"
                 id="department"
+                defaultValue={field.value}
                 options={departmentOptions}
                 error={errors.department?.message as string}
                 isRequired

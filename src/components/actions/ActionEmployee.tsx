@@ -5,12 +5,17 @@ import { Dropdown } from "antd";
 import Link from "next/link";
 
 import { Employee } from "@/models/employee";
+import StructuredModal from "../general/StructureModal";
+import useOpen from "@/hooks/useOpen";
+import EmployeeForm from "../form/EmployeeForm";
 
 interface Props {
     record: Employee
 }
 
 const ActionEmployee = ({ record }: Props) => {
+  const { isOpen, onClose, onOpen } = useOpen();
+
   const baseItems = [
     {
       label: (
@@ -24,6 +29,7 @@ const ActionEmployee = ({ record }: Props) => {
     {
       label: (
         <button
+          onClick={onOpen}
           className="hover:opacity-80 transition-opacity text-lg font-semibold lg:text-sm lg:font-light"
           type="button"
         >
@@ -36,18 +42,28 @@ const ActionEmployee = ({ record }: Props) => {
   ];
 
   return (
-    <div className={`w-fit flex gap-2 items-center`}>
-        <Dropdown menu={{ items: baseItems }} trigger={['click']} placement="bottomRight">
-          <button
-            type="button"
-            className="px-2 transition-all hover:opacity-90"
-          >
-            <div className="flex hover:bg-gray-200 rounded-xl hover:opacity-90 items-center gap-4 px-2 py-1">
-                <DashOutlined className="text-lg text-black" />
-            </div>
-          </button>
-        </Dropdown>
-    </div>
+    <>
+      <div className={`w-fit flex gap-2 items-center`}>
+          <Dropdown menu={{ items: baseItems }} trigger={['click']} placement="bottomRight">
+            <button
+              type="button"
+              className="px-2 transition-all hover:opacity-90"
+            >
+              <div className="flex hover:bg-gray-200 rounded-xl hover:opacity-90 items-center gap-4 px-2 py-1">
+                  <DashOutlined className="text-lg text-black" />
+              </div>
+            </button>
+          </Dropdown>
+      </div>
+
+      <StructuredModal classAditional="max-w-none xl:w-96" onClose={onClose} show={isOpen}>
+          <EmployeeForm 
+            onClose={onClose}
+            action='edit'
+            record={record}
+          />
+      </StructuredModal>
+    </>
   )
 }
 

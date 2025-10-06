@@ -78,8 +78,7 @@ const TemplateDatatable = <T extends object>({
           current: data?.pageNumber,
         }}
         dataSource={data?.data}
-        rowKey={crypto.randomUUID()}
-        key={crypto.randomUUID()}
+        rowKey={(record) => `row_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`}
       />
     </div>
   );

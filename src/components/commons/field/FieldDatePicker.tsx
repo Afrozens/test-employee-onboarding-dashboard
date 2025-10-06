@@ -7,6 +7,7 @@ import { RangePickerProps } from 'antd/es/date-picker';
 
 import FieldError from './FieldError';
 import { reformedQueryDate } from '@/utils/datetime';
+import { useCallback } from 'react';
 
 interface Props {
   label: string;
@@ -16,7 +17,7 @@ interface Props {
   classAditional?: string;
   isRequired?: boolean;
   disabledDate?: any;
-  value?: string;
+  value?: Date;
   error?: string;
 }
 
@@ -46,14 +47,15 @@ const FieldDatePicker = ({
     return current && current < dayjs().endOf('day');
   };
 
-  const getPickerValue = () => {
-    if (value) {
-      if (typeof value === 'string') {
-        return formatDate(value);
-      }
+  const getPickerValue = useCallback(() => {
+    if (field?.value) {
+      return formatDate(field.value);
     }
-    return undefined;
-  };
+    if (value) {
+      return formatDate(value.toString());
+    }
+    return null;
+  }, [field?.value, value]);
 
   return (
     <div

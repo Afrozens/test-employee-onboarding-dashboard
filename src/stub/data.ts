@@ -11,12 +11,7 @@ export const stubUser: User = {
 }
 
 export const corporateDomains = [
-    'corp.com',
-    'company.es',
     'empresa.com',
-    'business.com',
-    'tech.corp',
-    'solutions.es'
 ];
 
 const countries: typeCountry[] = [
@@ -32,13 +27,13 @@ export const generateEmployee = (): Employee => {
     const domain = faker.helpers.arrayElement(corporateDomains);
     
     return {
-        id: faker.word.sample(),
+        id: `emp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
         name: `${firstName}`,
-        email: `${firstName.toLowerCase()}@${domain}`,
+        email: `${firstName.toLowerCase()}-${faker.word.verb()}@${domain}`,
         department: faker.helpers.arrayElement(['HR', 'Engineering', 'Sales', 'Operations']),
-        monthlySalary: faker.number.float({ min: 800, max: 10000, fractionDigits: 2 }),
+        monthlySalary: faker.number.float({ min: 800, max: 10000, fractionDigits: 0 }),
         country: faker.helpers.arrayElement(countries),
-        entryDate: faker.date.between({ from: '2025-01-01', to: '2026-01-01' })
+        entryDate: faker.date.between({ from: '2025-11-14', to: '2026-01-01' })
     };
 };
 

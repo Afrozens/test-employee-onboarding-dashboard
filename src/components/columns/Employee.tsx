@@ -1,10 +1,13 @@
 'use client';
 
 import { TableProps } from 'antd';
+import dayjs from 'dayjs';
+
 
 import { Employee } from '@/models/employee';
 import CellEmployee from '../cells/CellEmployee';
 import ActionEmployee from '../actions/ActionEmployee';
+import { reformedQueryDate } from '@/utils/datetime';
 
 const columnEmployee = () => {
   const columns: TableProps<Employee>['columns'] = [
@@ -32,7 +35,7 @@ const columnEmployee = () => {
       dataIndex: 'country',
       key: 'country',
       render: (text) => (
-        <div className={`flex w-full flex-col flex-wrap`}>
+        <div className={`flex capitalize w-full flex-col flex-wrap`}>
           <span>{text}</span>
         </div>
       ),
@@ -42,9 +45,9 @@ const columnEmployee = () => {
       title: 'Entry Date',
       dataIndex: 'entryDate',
       key: 'entryDate',
-      render: (text) => (
+      render: (text, record) => (
         <div className={`flex w-full flex-col flex-wrap`}>
-          <span>{text}</span>
+          <span>{`${dayjs(reformedQueryDate(text), 'YYYY-MM-DD')}`}</span>
         </div>
       ),
     },
