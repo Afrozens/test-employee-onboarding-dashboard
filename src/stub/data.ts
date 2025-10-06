@@ -38,7 +38,7 @@ export const generateEmployee = (): Employee => {
 };
 
 export const generateEmployees = (count: number): Employee[] => {
-    return Array.from({ length: count }, (_, index) => generateEmployee());
+    return Array.from({ length: count }, () => generateEmployee());
 };
 
 export const departmentOptions = [

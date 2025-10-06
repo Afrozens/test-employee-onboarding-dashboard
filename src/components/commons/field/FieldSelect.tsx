@@ -21,6 +21,7 @@ type Props<T extends FieldValues> = {
   placeholder?: string;
   isLoading?: boolean;
   defaultValue?: string;
+  onChange?: ((newValue: string[] | string | null) => void)
 };
 
 const FieldSelect = <T extends FieldValues>({
@@ -33,6 +34,7 @@ const FieldSelect = <T extends FieldValues>({
   options,
   name,
   defaultValue,
+  onChange,
   placeholder,
   field,
   isLoading,
@@ -44,12 +46,16 @@ const FieldSelect = <T extends FieldValues>({
 
   const onChangeSingle = (newValue: unknown | Option[] | Option) => {
     if (Array.isArray(newValue)) {
-        const value = newValue.map((value) => value.value)
+        const value = newValue.map((option) => String(option.value));
         field?.onChange(value);
-    } else if ((newValue as Option).value) {
-      field?.onChange((newValue as Option).value);
+        onChange?.(value);
+    } else if ((newValue as Option).value !== undefined) {
+        const singleValue = String((newValue as Option).value);
+        field?.onChange(singleValue);
+        onChange?.(singleValue);
     } else {
-      field?.onChange(null);
+        field?.onChange(null);
+        onChange?.(null);
     }
   };
 
@@ -69,12 +75,13 @@ const FieldSelect = <T extends FieldValues>({
         className="w-full capitalize"
         name={name}
         isDisabled={isDisabled}
+        required={isRequired}
         isLoading={isLoading}
         id={id}
         menuPosition="fixed"
         menuPlacement="auto"
         styles={{
-          option: (styles, { data, isDisabled, isSelected, isFocused }) => ({
+          option: (styles, { isDisabled, isSelected, isFocused }) => ({
             ...styles,
             backgroundColor: isSelected ? '#FED553' : isFocused ? '#FED233' : '#fff',
             color: isSelected ? '#fff' : isFocused ? '#fff' : '#000',

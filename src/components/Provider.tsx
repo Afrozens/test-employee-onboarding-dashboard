@@ -1,9 +1,7 @@
 import { PropsWithChildren } from "react"
 import { Toaster } from "sonner"
 
-interface Props extends PropsWithChildren {}
-
-const Provider = ({ children }: Props) => {
+const Provider = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Toaster richColors />

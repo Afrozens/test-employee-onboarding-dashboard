@@ -1,11 +1,10 @@
 
 export interface Option {
   label: string;
-  value: string;
+  value: string | number | boolean;
 }
 
-export type OptionType = { [key: string]: any };
-export type OptionsType = Array<OptionType>;
+export type OptionsType = Option[];
 
 export interface Paginate<T> {
   pageNumber: number;

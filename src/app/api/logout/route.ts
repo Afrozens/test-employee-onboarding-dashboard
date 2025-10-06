@@ -11,6 +11,6 @@ export async function POST() {
       success: true
     });
   } catch (error) {
-    return NextResponse.json({ message: 'invalid-logout-request' }, { status: 500 });
+    return NextResponse.json({ message: `invalid-logout-request-${error}` }, { status: 500 });
   }
 }

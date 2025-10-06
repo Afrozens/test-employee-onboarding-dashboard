@@ -45,7 +45,7 @@ const columnEmployee = () => {
       title: 'Entry Date',
       dataIndex: 'entryDate',
       key: 'entryDate',
-      render: (text, record) => (
+      render: (text) => (
         <div className={`flex w-full flex-col flex-wrap`}>
           <span>{`${dayjs(reformedQueryDate(text), 'YYYY-MM-DD')}`}</span>
         </div>

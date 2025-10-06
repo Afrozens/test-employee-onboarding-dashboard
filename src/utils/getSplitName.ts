@@ -34,8 +34,7 @@ const colors = [
  */
 const getSplitName = (name: string) => {
   // Select a color based on the first character's ASCII code
-  let color: string;
-  color = colors[name?.charCodeAt(0) % colors.length];
+  const color = colors[name?.charCodeAt(0) % colors.length];
 
   // Process the name to extract initials
   let nameSplit: string | string[] = name.split(' ');
@@ -45,7 +44,7 @@ const getSplitName = (name: string) => {
 
   // Filter out any empty strings
   nameSplit = nameSplit.filter(
-    (name: string | undefined) => name !== '' && name !== undefined,
+    (name: string | undefined) => name !== '' && name !== undefined, 
   );
 
   // Create initials (1 letter for single name, 2 letters for multiple names)

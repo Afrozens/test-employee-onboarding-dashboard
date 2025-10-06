@@ -25,6 +25,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ message: 'invalid-auth-request' }, { status: 500 });
+    return NextResponse.json({ message: `invalid-auth-reques-${error}` }, { status: 500 });
   }
 }

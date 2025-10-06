@@ -28,6 +28,14 @@ const ContainerHome = () => {
         ...selectedCountries
     ];
 
+    const handleDepartmentChange = (values: string | string[] | null) => {
+        setSelectedDepartments(Array.isArray(values) ? values : values ? [values] : []);
+    };
+
+    const handleCountryChange = (values: string | string[] | null) => {
+        setSelectedCountries(Array.isArray(values) ? values : values ? [values] : []);
+    };
+
     return (
         <>
             <header className="w-full flex justify-end gap-5 mt-10 px-10 items-center">
@@ -37,7 +45,7 @@ const ContainerHome = () => {
                     name="department"
                     id="department"
                     options={departmentOptions}
-                    onChange={setSelectedDepartments}
+                    onChange={handleDepartmentChange}
                     isMultiple
                 />
                 <FieldSelect
@@ -45,7 +53,7 @@ const ContainerHome = () => {
                     name="country"
                     id="country"
                     options={countryOptions}
-                    onChange={setSelectedCountries}
+                    onChange={handleCountryChange}
                     isMultiple
                 />
                 </div>

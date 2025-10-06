@@ -1,5 +1,5 @@
 import { ColumnsType } from "antd/es/table";
-import { FilterValue, SorterResult, TableCurrentDataSource, TablePaginationConfig } from 'antd/es/table/interface';
+import { FilterValue, SorterResult, TablePaginationConfig } from 'antd/es/table/interface';
 import { useState } from "react";
 
 interface Props<T> {
@@ -31,7 +31,6 @@ const useDatatable= <T extends object>({ columns, sortableColumns, handlePage, c
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
     sorter: SorterResult<T> | SorterResult<T>[],
-    extra: TableCurrentDataSource<T>
   ) => {
     if (pagination.current !== currentPage) {
       handlePage(pagination.current || 1);
