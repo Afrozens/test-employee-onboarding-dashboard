@@ -25,7 +25,6 @@ export function useAutoSaveForm<T extends FieldValues>({
     const saveDraft = useCallback(() => {
         if (hasSubmittedRef.current || !enabled) return;
         
-        try {
             const currentData = getValues();
             const hasData = Object.values(currentData as any).some(value => 
                 value !== undefined && value !== null && value !== ''
@@ -41,27 +40,23 @@ export function useAutoSaveForm<T extends FieldValues>({
                 localStorage.setItem(draftKey, JSON.stringify(draftData));
                 console.log('Draft saved automatically');
             }
-        } catch (error) {
-            console.error('Error saving draft:', error);
-        }
     }, [getValues, enabled, action, recordId, draftKey]);
 
     const loadDraft = useCallback(() => {
         if (!enabled) return false;
         
-        try {
             const savedDraft = localStorage.getItem(draftKey);
             if (savedDraft) {
                 const draft = JSON.parse(savedDraft);
                 
                 if (draft.action === action && draft.recordId === recordId) {
-                    reset(draft);
+                    reset({
+                        ...draft,
+                        entryDate: draft.entryDate ? new Date(draft.entryDate) : draft.entryDate,
+                    });
                     return true;
                 }
             }
-        } catch (error) {
-            console.error('Error loading draft:', error);
-        }
         return false;
     }, [reset, enabled, action, recordId, draftKey]);
 
@@ -72,7 +67,10 @@ export function useAutoSaveForm<T extends FieldValues>({
 
     const initializeWithData = useCallback((data: T) => {
         if (isInitialLoadRef.current) {
-            reset(data);
+            reset({
+                ...data,
+                entryDate: data.entryDate ? new Date(data.entryDate) : data.entryDate,
+            });
             isInitialLoadRef.current = false;
         }
     }, [reset]);
