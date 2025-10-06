@@ -11,6 +11,7 @@ import ButtonPrimary from "../commons/buttons/ButtonPrimary";
 import useOpen from "@/hooks/useOpen";
 import StructuredModal from "../general/StructureModal";
 import EmployeeForm from "../form/EmployeeForm";
+import AvatarGenerate from "./AvatarGenerate";
 
 interface Props {
     id: string;
@@ -50,11 +51,7 @@ const ContainerEmployee = ({ id }: Props) => {
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
                     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6 border-b border-gray-200">
                         <div className="flex items-center gap-6">
-                            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                                <span className="text-white text-2xl font-semibold">
-                                    {data.name.split(' ').map(n => n[0]).join('')}
-                                </span>
-                            </div>
+                            <AvatarGenerate name={data.name} size={80} />
                             <div>
                                 <h2 className="text-2xl font-semibold text-gray-900">{data.name}</h2>
                                 <p className="text-gray-600 mt-1">{data.email}</p>
