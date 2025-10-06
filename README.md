@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Employee Onboarding Dashboard
 
-## Getting Started
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-First, run the development server:
+Estás construyendo el módulo de onboarding de empleados para nuestro SAAS de HR.
+Las empresas cliente necesitan registrar nuevos empleados con información básica
+y visualizar el estado de los procesos de onboarding.
+
+## Features
+
+- 🚀 Create Employee
+- 📊 Edit Employee
+- 🔍 Datatable with list of Employee
+- ⚡ Overview of Employee
+- 🛡️ Authentication (login, user me in server side)
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Structure
+```bash
+employee-onboarding-dashboard/
+├── src/
+│   ├── app/
+│   ├── components/
+│   ├── fonts/
+│   ├── hooks/
+│   ├── models/
+│   ├── stub/
+│   ├── styles/
+│   ├── utils/
+│   └── middleware.ts/
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Dependency
+```json
+{
+  "dependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "@faker-js/faker": "^10.0.0",
+    "@hookform/resolvers": "^5.2.2",
+    "@tanstack/react-query": "^5.90.2",
+    "antd": "^5.27.4",
+    "next": "14.2.33",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.64.0",
+    "react-select": "^5.10.2",
+    "sonner": "^2.0.7",
+    "tailwindcss-animated": "^2.0.0",
+    "zod": "^4.1.11"
+  },
+}
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Inspiration of UI
+http://flowbite.com
 
-## Learn More
+https://ant.design
 
-To learn more about Next.js, take a look at the following resources:
+## Important technical decisions and why
+I adopted a feature-oriented structure rather than an entity-oriented one, but with an emphasis on organization and code reuse due to the size of the project. I also reused previously created components to streamline the process.
+I used classes in services to take advantage of the syntactic sugar of OOP in JavaScript and to encapsulate services correctly in context.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Approximate time spent
+9 hours
 
-## Deploy on Vercel
+## If you used AI, how and why
+I used it to speed up the simulations of all the API requests with the help of AI and indicating the prompt on how to integrate the timeout
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Additionally, for the overview UI, indicating that based on a Flowbite template I would integrate a basic overview with Tailwind to display the Employee entity.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Things you would improve with more time
+I would improve the UI in everything related to styles in both pages and components.
+
+I would integrate a test for the draft to save every 30 seconds in the localstorage in the form employee

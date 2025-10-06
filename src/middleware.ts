@@ -9,6 +9,10 @@ export function middleware(req: NextRequest) {
   
   const isPublicRoute = publicRoutes.some((route) => req.nextUrl.pathname === route);
 
+    if (req.nextUrl.pathname === '/') {
+      return NextResponse.redirect(new URL('/login', req.url));
+    }
+
   if (req.nextUrl.pathname === '/login' && isCorrectlyToken) {
     return NextResponse.redirect(new URL('/dashboard/home', req.url));
   }
