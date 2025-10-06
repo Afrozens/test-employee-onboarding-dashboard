@@ -2,6 +2,8 @@
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from "react";
+import { LoadingOutlined } from "@ant-design/icons";
 
 import ButtonPrimary from "../commons/buttons/ButtonPrimary";
 import FieldInput from "../commons/field/FieldInput";
@@ -10,20 +12,48 @@ import useSubmit from "@/hooks/useSubmit";
 import FieldSelect from "../commons/field/FieldSelect";
 import { countryOptions, departmentOptions } from "@/stub/data";
 import FieldDatePicker from "../commons/field/FieldDatePicker";
+import EmployeeService from "@/services/EmployeeService";
+import useEmail from "@/hooks/useEmail";
+import { Employee } from "@/models/employee";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
     onClose: () => void;
     action: 'create' | 'edit'
+    id?: string;
 }
 
-const EmployeeForm = ({ action, onClose}: Props) => {
-    const { handleSubmit, control, formState: { errors, isValid }, register} = useForm<Schema>({
+const EmployeeForm = ({ action, onClose, id }: Props) => {
+    const employeeService = new EmployeeService();
+    const { handleSubmit, control, watch, setError, clearErrors, formState: { errors, isValid }, register} = useForm<Schema>({
         mode: 'onChange',
         resolver: zodResolver(schema),
     });
-    const { isLoading, doSubmit } = useSubmit();
-    const onSubmit: SubmitHandler<Schema> = data => {
+    const queryClient = useQueryClient();
+    const { dataEmail, isLoadingEmail } = useEmail(watch('email'), errors.email?.message);
+    const { isLoading, doSubmit } = useSubmit<Partial<Employee>, void>();
+    const saveService = action === 'create' ? employeeService.createEmployee : employeeService.editEmployee
 
+    useEffect(() => {
+          if (typeof dataEmail === 'boolean') {
+            if (!dataEmail) {
+              setError('email', {
+                    type: 'manual',
+                    message: 'Email is already in use. Please choose a different one.'
+              });
+            } else {
+              clearErrors('email')
+            }
+          }
+    }, [dataEmail])
+    
+    const onSubmit: SubmitHandler<Schema> = async data => {
+      clearErrors();
+      onClose();
+      await doSubmit({data, callback: saveService, id})
+      await queryClient.invalidateQueries({ queryKey: ['paginate-employees'] });
+      toast.success(`Employee ${action === 'create' ? 'created' : 'edited'} successfully`)
     }
 
   return (
@@ -37,7 +67,8 @@ const EmployeeForm = ({ action, onClose}: Props) => {
         placeholder="John Doe"
         id="name"
       />
-      <FieldInput
+      <div className="w-full flex-col gap-4">
+        <FieldInput
         label={'email'}
         type="email"
         id="email"
@@ -53,6 +84,17 @@ const EmployeeForm = ({ action, onClose}: Props) => {
         isRequired
         placeholder="Correo@example.com"
       />
+      {isLoadingEmail ? (
+        <div className="flex gap-2 mt-2">
+          <LoadingOutlined className="text-xl" />
+          <p className="text-sm">Check email...</p>
+        </div>
+      ) : dataEmail ? (
+          <p className="text-green-500 text-sm mt-1">
+            ✓ Email is available
+          </p>
+        ) : null}
+      </div>
       <FieldInput 
         label="Monthly Salary"
         type="number"

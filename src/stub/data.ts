@@ -34,11 +34,11 @@ export const generateEmployee = (): Employee => {
     return {
         id: faker.word.sample(),
         name: `${firstName}`,
-        email: `${firstName.toLowerCase()}.@${domain}`,
+        email: `${firstName.toLowerCase()}@${domain}`,
         department: faker.helpers.arrayElement(['HR', 'Engineering', 'Sales', 'Operations']),
         monthlySalary: faker.number.float({ min: 800, max: 10000, fractionDigits: 2 }),
         country: faker.helpers.arrayElement(countries),
-        entryDate: faker.date.between({ from: '2020-01-01', to: '2024-01-01' }).toISOString().split('T')[0]
+        entryDate: faker.date.between({ from: '2025-01-01', to: '2026-01-01' })
     };
 };
 

@@ -6,7 +6,7 @@ export interface Employee {
     name: string;
     email: string
     department: typedepartment;
-    monthlySalary: number;
+    monthlySalary: string | number;
     country: typeCountry;
-    entryDate: string;
+    entryDate: Date;
 }
