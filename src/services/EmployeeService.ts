@@ -1,6 +1,5 @@
 import { Employee } from '@/models/employee';
 import { Paginate } from '@/models/common';
-import employeesData from '@/stub/employee.json';
 
 /**
  * Service class for handling employee-related operations including:
@@ -28,7 +27,7 @@ class EmployeeService {
         try {
             await new Promise(resolve => setTimeout(resolve, Math.random() * 500 + 500));
             
-            const allEmployees: Employee[] = employeesData as Employee[];
+            const allEmployees: Employee[] = JSON.parse(localStorage.getItem('data-stub')!) as Employee[];
             
             let filteredEmployees = allEmployees.filter(employee => {
                 const matchesFilter = !filter || filter.trim() === '' || 

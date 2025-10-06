@@ -1,8 +1,7 @@
-import { randomUUID } from "crypto";
 import { faker } from "@faker-js/faker";
 
 import { User } from "@/models/user";
-import { Employee } from "@/models/employee";
+import { Employee, typeCountry } from "@/models/employee";
 
 export const stubUser: User = {
     id: 'asjdlkjsdlkasjdlkadjslkajsd',
@@ -14,26 +13,31 @@ export const stubUser: User = {
 export const corporateDomains = [
     'corp.com',
     'company.es',
-    'enterprise.io',
+    'empresa.com',
     'business.com',
     'tech.corp',
-    'innovations.org',
-    'global.com',
     'solutions.es'
+];
+
+const countries: typeCountry[] = [
+    'el salvador',
+    'guatemala', 
+    'honduras',
+    'costa rica',
+    'panamá'
 ];
 
 export const generateEmployee = (): Employee => {
     const firstName = faker.person.firstName();
-    const lastName = faker.person.lastName();
     const domain = faker.helpers.arrayElement(corporateDomains);
     
     return {
-        id: randomUUID(),
-        name: `${firstName} ${lastName}`,
-        email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`,
+        id: faker.word.sample(),
+        name: `${firstName}`,
+        email: `${firstName.toLowerCase()}.@${domain}`,
         department: faker.helpers.arrayElement(['HR', 'Engineering', 'Sales', 'Operations']),
         monthlySalary: faker.number.float({ min: 800, max: 10000, fractionDigits: 2 }),
-        country: faker.location.country(),
+        country: faker.helpers.arrayElement(countries),
         entryDate: faker.date.between({ from: '2020-01-01', to: '2024-01-01' }).toISOString().split('T')[0]
     };
 };
